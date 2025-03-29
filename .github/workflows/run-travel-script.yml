@@ -2,7 +2,7 @@ name: Run travel_time_google
 
 on:
   schedule:
-    - cron: '30 5 * * *'  # UTC time (5:30 UTC = 6:30 CET in winter, 7:30 in summer)
+    - cron: '15 9 * * *'  # UTC time (5:30 UTC = 6:30 CET in winter, 7:30 in summer)
   workflow_dispatch:  # Optional: lets you run it manually from GitHub
 
 jobs:
