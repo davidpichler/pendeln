@@ -20,4 +20,4 @@ jobs:
           Rscript -e 'install.packages(c("httr", "jsonlite", "lubridate", "tidyverse"))'
 
       - name: Run script
-        run: Rscript codes/travel_time_google.R
+        run: Rscript travel_time_google.R
