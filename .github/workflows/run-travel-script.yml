@@ -17,7 +17,7 @@ jobs:
 
       - name: Install packages
         run: |
-          Rscript -e 'install.packages(c("httr", "jsonlite", "lubridate", "tidyverse"))'
+          Rscript -e 'install.packages(c("httr", "jsonlite", "lubridate", "tidyverse", "pacman", "gmapsdistance))'
 
       - name: Run script
         run: Rscript travel_time_google.R
