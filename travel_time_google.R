@@ -46,7 +46,11 @@ zeitstempel <- format(Sys.time(), "%Y-%m-%d_%H-%M")
 dateiname <- paste0("pendelzeit_", zeitstempel, ".csv")
 
 # Daten als CSV speichern
+zeitstempel <- format(Sys.time(), "%Y-%m-%d_%H-%M")
+dateiname <- paste0("output/pendelzeit_", zeitstempel, ".csv")
+
 write.table(pendelzeiten_df, 
-            file = paste0("C:/Users/pichl/Dropbox/funstuff/stau/output/", dateiname),
+            file = dateiname,
             sep = ";",
             row.names = FALSE)
+
