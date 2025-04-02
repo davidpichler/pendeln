@@ -37,7 +37,8 @@ jobs:
       - name: Run R script and capture output filename
         id: runscript
         run: |
-          echo "FILE_NAME=$(Rscript codes/travel_time_google.R)" >> $GITHUB_ENV
+          FILE_NAME=$(Rscript codes/travel_time_google.R)
+          echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV
 
       - name: Upload file to Dropbox
         run: |
