@@ -1,4 +1,4 @@
-
+library(gmapsdistance)
 
 # Check if running on GitHub Actions
 running_on_github <- Sys.getenv("GITHUB_ACTIONS") == "true"
