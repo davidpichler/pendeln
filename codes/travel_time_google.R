@@ -1,13 +1,13 @@
 library(gmapsdistance)
 library(googleway)
-library(dplyr)
 
 # Check if running on GitHub Actions
 running_on_github <- Sys.getenv("GITHUB_ACTIONS") == "true"
 
 # Set Google API key
-set.api.key("AIzaSyDBsbOpAc2yhrSTxS14rcUk30J1XNOUX28")
-set_key("AIzaSyDBsbOpAc2yhrSTxS14rcUk30J1XNOUX28")
+api_key <- "AIzaSyDBsbOpAc2yhrSTxS14rcUk30J1XNOUX28"
+set.api.key(api_key)
+set_key(api_key)
 
 # Pendler-Startorte und Zielorte
 startorte <- c("Leonding", "Gallneukirchen", "Ansfelden", 
@@ -50,40 +50,38 @@ check_road_usage <- function(start, ziel) {
 }
 
 # Hauptschleife
-pendler_ergebnis <- lapply(startorte, function(start) {
-  lapply(zielorte, function(ziel) {
+pendler_ergebnis <- list()
+for (start in startorte) {
+  for (ziel in zielorte) {
     hin_time <- time_query(start, ziel)
     retour_time <- time_query(ziel, start)
     hin_roads <- check_road_usage(start, ziel)
     retour_roads <- check_road_usage(ziel, start)
     
-    list(
-      data.frame(
-        datum_uhrzeit = Sys.time(),
-        richtung = "Hin",
-        startort = start,
-        zielort = ziel,
-        fahrtzeit_minuten = hin_time,
-        b127 = hin_roads[["B127"]],
-        b129 = hin_roads[["B129"]]
-      ),
-      data.frame(
-        datum_uhrzeit = Sys.time(),
-        richtung = "Retour",
-        startort = ziel,
-        zielort = start,
-        fahrtzeit_minuten = retour_time,
-        b127 = retour_roads[["B127"]],
-        b129 = retour_roads[["B129"]]
-      )
+    pendler_ergebnis[[length(pendler_ergebnis) + 1]] <- data.frame(
+      datum_uhrzeit = Sys.time(),
+      richtung = "Hin",
+      startort = start,
+      zielort = ziel,
+      fahrtzeit_minuten = hin_time,
+      b127 = hin_roads["B127"],
+      b129 = hin_roads["B129"]
     )
-  })
-})
+    
+    pendler_ergebnis[[length(pendler_ergebnis) + 1]] <- data.frame(
+      datum_uhrzeit = Sys.time(),
+      richtung = "Retour",
+      startort = ziel,
+      zielort = start,
+      fahrtzeit_minuten = retour_time,
+      b127 = retour_roads["B127"],
+      b129 = retour_roads["B129"]
+    )
+  }
+}
 
 # Zusammenfassen
-df <- do.call(rbind, unlist(pendler_ergebnis, recursive = FALSE)) 
-
-df <- df %>% bind_rows()
+df <- do.call(rbind, pendler_ergebnis)
 
 # CSV-Dateiname
 zeitstempel <- format(Sys.time(), "%Y%m%d_%H%M")
@@ -103,6 +101,3 @@ if (running_on_github) {
 
 # Exportiere Dateiname für GitHub Actions
 cat(paste0("FILE_NAME=", dateiname), file = Sys.getenv("GITHUB_ENV"), append = TRUE, sep = "")
-
-
-
