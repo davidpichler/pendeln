@@ -57,14 +57,15 @@ pendelzeiten_df <- do.call(rbind, do.call(c, pendler_ergebnis))
 zeitstempel <- format(Sys.time(), "%Y-%m-%d_%H-%M")
 dateiname <- paste0("pendelzeit_", zeitstempel, ".csv")
 
-
+# Set output directory
+output_dir <- "output_git"
+dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
 
 
 if (running_on_github) {
-  dir.create("output", showWarnings = FALSE)
   
   write.table(pendelzeiten_df, 
-              file = paste0("output/", dateiname),
+              file = file.path(output_dir, dateiname),
               sep = ";",
               row.names = FALSE)
 }
