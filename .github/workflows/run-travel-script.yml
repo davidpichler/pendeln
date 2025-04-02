@@ -2,7 +2,19 @@ name: Run travel_time_google and upload to Dropbox
 
 on:
   schedule:
-    - cron: '15 9 * * *'  # Runs daily at 09:15 UTC
+    - cron: '30 4 * * *'   # 05:30 CET
+    - cron: '0 5 * * *'    # 06:00
+    - cron: '30 5 * * *'   # 06:30
+    - cron: '0 6 * * *'    # 07:00
+    - cron: '30 6 * * *'   # 07:30
+    - cron: '0 7 * * *'    # 08:00
+    - cron: '0 14 * * *'   # 15:00
+    - cron: '30 14 * * *'  # 15:30
+    - cron: '0 15 * * *'   # 16:00
+    - cron: '30 15 * * *'  # 16:30
+    - cron: '0 16 * * *'   # 17:00
+    - cron: '30 16 * * *'  # 17:30
+    - cron: '0 17 * * *'   # 18:00
   workflow_dispatch:
 
 jobs:
