@@ -72,6 +72,7 @@ if (running_on_github) {
 }
 
 # Output filename so GitHub Actions can read it
-cat(dateiname, file = Sys.getenv("GITHUB_ENV"), append = TRUE, sep = "")
+cat(paste0("FILE_NAME=", dateiname), file = Sys.getenv("GITHUB_ENV"), append = TRUE, sep = "")
+
 
 
