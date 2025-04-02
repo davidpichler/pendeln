@@ -55,6 +55,7 @@ pendelzeiten_df <- do.call(rbind, do.call(c, pendler_ergebnis))
 
 # CSV-Dateiname dynamisch erzeugen
 zeitstempel <- format(Sys.time(), "%Y-%m-%d_%H-%M")
+zeitstempel <- gsub("-", "", zeitstempel)
 dateiname <- paste0("pendelzeit_", zeitstempel, ".csv")
 
 # Set output directory
