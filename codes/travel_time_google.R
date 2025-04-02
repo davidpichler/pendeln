@@ -7,8 +7,9 @@ if(!running_on_github) {
   pacman::p_load(gmapsdistance)
 }
 
+print(running_on_github)
 
-Sys.setenv(GITHUB_ACTIONS = "true")  # manually override for testing
+#Sys.setenv(GITHUB_ACTIONS = "true")  # manually override for testing
 
 #if (requireNamespace("renv", quietly = TRUE)) renv::activate()
 # Pakete laden
