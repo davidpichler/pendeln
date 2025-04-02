@@ -43,6 +43,6 @@ jobs:
         run: |
           curl -X POST https://content.dropboxapi.com/2/files/upload \
             --header "Authorization: Bearer ${{ secrets.DROPBOX_TOKEN }}" \
-            --header "Dropbox-API-Arg: {\"path\": \"/pendelzeiten/${{ env.FILE_NAME }}\", \"mode\": \"overwrite\"}" \
+            --header "Dropbox-API-Arg: {\"path\": \"/funstuff/pendeln/output_git/${{ env.FILE_NAME }}\", \"mode\": \"overwrite\"}" \
             --header "Content-Type: application/octet-stream" \
             --data-binary @output_git/${{ env.FILE_NAME }}
