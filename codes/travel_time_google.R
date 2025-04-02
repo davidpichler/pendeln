@@ -1,4 +1,16 @@
-if (requireNamespace("renv", quietly = TRUE)) renv::activate()
+
+
+# Check if running on GitHub Actions
+running_on_github <- Sys.getenv("GITHUB_ACTIONS") == "true"
+
+if(!running_on_github) {
+  pacman::p_load(gmapsdistance)
+}
+
+
+Sys.setenv(GITHUB_ACTIONS = "true")  # manually override for testing
+
+#if (requireNamespace("renv", quietly = TRUE)) renv::activate()
 # Pakete laden
 # Google API-Key setzen (ersetze mit deinem Schlüssel)
 set.api.key("AIzaSyDBsbOpAc2yhrSTxS14rcUk30J1XNOUX28")
@@ -44,8 +56,14 @@ pendelzeiten_df <- do.call(rbind, do.call(c, pendler_ergebnis))
 zeitstempel <- format(Sys.time(), "%Y-%m-%d_%H-%M")
 dateiname <- paste0("pendelzeit_", zeitstempel, ".csv")
 
-# Daten als CSV speichern
-write.table(pendelzeiten_df, 
-            file = paste0("C:/Users/pichl/Dropbox/funstuff/stau/output/", dateiname),
-            sep = ";",
-            row.names = FALSE)
+
+
+
+if (running_on_github) {
+  dir.create("output", showWarnings = FALSE)
+  
+  write.table(pendelzeiten_df, 
+              file = paste0("output/", dateiname),
+              sep = ";",
+              row.names = FALSE)
+}
