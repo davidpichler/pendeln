@@ -1,6 +1,3 @@
-# Pakete laden
-pacman::p_load(gmapsdistance)
-
 # Google API-Key setzen (ersetze mit deinem Schlüssel)
 set.api.key("AIzaSyDBsbOpAc2yhrSTxS14rcUk30J1XNOUX28")
 
