@@ -68,3 +68,6 @@ if (running_on_github) {
               sep = ";",
               row.names = FALSE)
 }
+
+# Output filename so GitHub Actions can read it
+cat(dateiname)
