@@ -100,4 +100,6 @@ if (running_on_github) {
 }
 
 # Exportiere Dateiname für GitHub Actions
-cat(paste0("FILE_NAME=", dateiname), file = Sys.getenv("GITHUB_ENV"), append = TRUE, sep = "")
+#cat(paste0("FILE_NAME=", dateiname), file = Sys.getenv("GITHUB_ENV"), append = TRUE, sep = "")
+writeLines(dateiname, "output_filename.txt")
+

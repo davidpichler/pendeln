@@ -3,4 +3,5 @@
 .RData
 .Ruserdata
 output/
+output_git/
 renv/library/
