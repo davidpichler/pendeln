@@ -1,4 +1,4 @@
-name: Run travel_time_google and upload to Dropbox
+name: debug
 
 on:
   schedule:
