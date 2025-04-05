@@ -24,7 +24,7 @@ jobs:
           export APP_SECRET="${{ secrets.DROPBOX_APP_SECRET }}"
           export REFRESH_TOKEN="${{ secrets.DROPBOX_REFRESH_TOKEN }}"
           bash codes/refresh_token.sh
-
+          
       - name: Debug Access Token (nicht für Produktion)
         run: |
           echo "Access Token (erste 10 Zeichen): ${DROPBOX_ACCESS_TOKEN:0:10}"
