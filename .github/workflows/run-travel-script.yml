@@ -2,12 +2,12 @@ name: Run travel_time_google and upload to Dropbox
 
 on:
   schedule:
+    - cron: '52 2 * * *'
     - cron: '22 3 * * *'
     - cron: '52 3 * * *'
     - cron: '22 4 * * *'
     - cron: '52 4 * * *'
     - cron: '22 5 * * *'
-    - cron: '52 5 * * *'
     - cron: '52 12 * * *'
     - cron: '22 13 * * *'
     - cron: '52 13 * * *'
