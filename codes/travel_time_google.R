@@ -59,7 +59,7 @@ for (start in startorte) {
     retour_roads <- check_road_usage(ziel, start)
     
     pendler_ergebnis[[length(pendler_ergebnis) + 1]] <- data.frame(
-      datum_uhrzeit = Sys.time(),
+      datum_uhrzeit = as.POSIXct(Sys.time(), tz = "Europe/Vienna"),
       richtung = "Hin",
       startort = start,
       zielort = ziel,
@@ -69,7 +69,7 @@ for (start in startorte) {
     )
     
     pendler_ergebnis[[length(pendler_ergebnis) + 1]] <- data.frame(
-      datum_uhrzeit = Sys.time(),
+      datum_uhrzeit = as.POSIXct(Sys.time(), tz = "Europe/Vienna"),
       richtung = "Retour",
       startort = ziel,
       zielort = start,
@@ -77,6 +77,7 @@ for (start in startorte) {
       b127 = retour_roads["B127"],
       b129 = retour_roads["B129"]
     )
+    
   }
 }
 
