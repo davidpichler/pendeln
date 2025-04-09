@@ -38,7 +38,6 @@ jobs:
           key: ${{ runner.os }}-renv-${{ hashFiles('renv.lock') }}
           restore-keys: ${{ runner.os }}-renv-
 
-
       - name: Install renv and restore packages
         run: |
           install.packages("renv")
@@ -53,19 +52,8 @@ jobs:
           bash codes/refresh_token.sh
           echo "DROPBOX_ACCESS_TOKEN=$(cat dropbox_access_token.txt)" >> $GITHUB_ENV
 
-      - name: Run R script and capture output filename
-        id: runscript
+      - name: Run R script (sleeper)
         env:
           DROPBOX_ACCESS_TOKEN: ${{ env.DROPBOX_ACCESS_TOKEN }}
         run: |
           Rscript codes/travel_time_google_sleeper.R
-          FILE_NAME=$(cat output_filename.txt)
-          echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
-
-      - name: Upload file to Dropbox
-        run: |
-          curl -X POST https://content.dropboxapi.com/2/files/upload \
-            --header "Authorization: Bearer ${{ env.DROPBOX_ACCESS_TOKEN }}" \
-            --header "Dropbox-API-Arg: {\"path\": \"/funstuff/pendeln/output_git/${{ env.FILE_NAME }}\", \"mode\": \"overwrite\"}" \
-            --header "Content-Type: application/octet-stream" \
-            --data-binary @output_git/${{ env.FILE_NAME }}
