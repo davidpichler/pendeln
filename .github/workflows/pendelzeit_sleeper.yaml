@@ -20,7 +20,7 @@ jobs:
       - name: Install system dependencies for RCurl
         run: |
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libjpeg-dev libjq-dev jq
+          sudo apt-get install -y libcurl4-openssl-dev libjpeg-dev libjq-dev jq libfontconfig1-dev libfreetype6-dev
 
       - name: Cache R packages
         uses: actions/cache@v3
