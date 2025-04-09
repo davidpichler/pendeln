@@ -19,5 +19,8 @@ echo "$RESPONSE"
 ACCESS_TOKEN=$(echo "$RESPONSE" | jq -r '.access_token')
 echo "Access Token erhalten: ${ACCESS_TOKEN:0:10}..."
 
-# In GITHUB_ENV speichern
+# In Datei schreiben, damit cat funktioniert
+echo "$ACCESS_TOKEN" > dropbox_access_token.txt
+
+# In GitHub Actions-Umgebung setzen
 echo "DROPBOX_ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
