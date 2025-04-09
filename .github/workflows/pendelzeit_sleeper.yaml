@@ -1,4 +1,4 @@
-name: Run travel_time_google and upload to Dropbox
+name: Run travel_time_google - sleeper
 
 on:
   schedule:
@@ -48,7 +48,7 @@ jobs:
         env:
           DROPBOX_ACCESS_TOKEN: ${{ env.DROPBOX_ACCESS_TOKEN }}
         run: |
-          Rscript codes/travel_time_google.R
+          Rscript codes/travel_time_google_sleeper.R
           FILE_NAME=$(cat output_filename.txt)
           echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
 
