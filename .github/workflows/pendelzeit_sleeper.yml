@@ -50,7 +50,7 @@ jobs:
           export APP_SECRET="${{ secrets.DROPBOX_APP_SECRET }}"
           export REFRESH_TOKEN="${{ secrets.DROPBOX_REFRESH_TOKEN }}"
           bash codes/refresh_token.sh
-          echo "DROPBOX_ACCESS_TOKEN=$(cat dropbox_access_token.txt)" >> $GITHUB_ENV
+          
 
       - name: Run R script (sleeper)
         env:
