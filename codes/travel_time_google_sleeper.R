@@ -148,7 +148,8 @@ while (as.numeric(difftime(Sys.time(), start_time, units = "secs")) < max_durati
   abfrage_df <- run_abfrage()
   
   # Write one CSV file per round
-  file_timestamp <- format(Sys.time(), "%Y%m%d_%H%M")
+  vienna_now <- format(Sys.time(), tz = "Europe/Vienna", usetz = FALSE)
+  file_timestamp <- format(as.POSIXct(vienna_now, tz = "Europe/Vienna"), "%Y%m%d_%H%M")
   filename <- paste0("pendelzeit_", file_timestamp, ".csv")
   local_path <- file.path(output_dir, filename)
   dropbox_path <- paste0("/funstuff/pendeln/output_git/", filename)
