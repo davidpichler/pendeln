@@ -2,21 +2,42 @@ name: Run travel_time_google and upload to Dropbox
 
 on:
   schedule:
-    - cron: '52 2 * * *'
-    - cron: '07 3 * * *'
-    - cron: '22 3 * * *'
-    - cron: '37 3 * * *'
-    - cron: '52 3 * * *'
-    - cron: '22 4 * * *'
-    - cron: '52 4 * * *'
-    - cron: '22 5 * * *'
-    - cron: '52 12 * * *'
-    - cron: '22 13 * * *'
-    - cron: '52 13 * * *'
-    - cron: '22 14 * * *'
-    - cron: '52 14 * * *'
-    - cron: '22 15 * * *'
-  workflow_dispatch:
+    # Morgens (MESZ: 05:30 bis 09:00 alle 15 Min → UTC minus 129 Min)
+    - cron: '21 3 * * *'   # 05:30 MESZ
+    - cron: '36 3 * * *'   # 05:45 MESZ
+    - cron: '51 3 * * *'   # 06:00 MESZ
+    - cron: '06 4 * * *'   # 06:15 MESZ
+    - cron: '21 4 * * *'   # 06:30 MESZ
+    - cron: '36 4 * * *'   # 06:45 MESZ
+    - cron: '51 4 * * *'   # 07:00 MESZ
+    - cron: '06 5 * * *'   # 07:15 MESZ
+    - cron: '21 5 * * *'   # 07:30 MESZ
+    - cron: '36 5 * * *'   # 07:45 MESZ
+    - cron: '51 5 * * *'   # 08:00 MESZ
+    - cron: '06 6 * * *'   # 08:15 MESZ
+    - cron: '21 6 * * *'   # 08:30 MESZ
+    - cron: '36 6 * * *'   # 08:45 MESZ
+    - cron: '51 6 * * *'   # 09:00 MESZ
+
+    # Nachmittags (MESZ: 14:30 bis 18:00 → UTC minus 129 Min)
+    - cron: '21 12 * * *'  # 14:30 MESZ
+    - cron: '36 12 * * *'  # 14:45 MESZ
+    - cron: '51 12 * * *'  # 15:00 MESZ
+    - cron: '06 13 * * *'  # 15:15 MESZ
+    - cron: '21 13 * * *'  # 15:30 MESZ
+    - cron: '36 13 * * *'  # 15:45 MESZ
+    - cron: '51 13 * * *'  # 16:00 MESZ
+    - cron: '06 14 * * *'  # 16:15 MESZ
+    - cron: '21 14 * * *'  # 16:30 MESZ
+    - cron: '36 14 * * *'  # 16:45 MESZ
+    - cron: '51 14 * * *'  # 17:00 MESZ
+    - cron: '06 15 * * *'  # 17:15 MESZ
+    - cron: '21 15 * * *'  # 17:30 MESZ
+    - cron: '36 15 * * *'  # 17:45 MESZ
+    - cron: '51 15 * * *'  # 18:00 MESZ
+
+  workflow_dispatch:  # manueller Start
+
 
 jobs:
   run_r_script:
