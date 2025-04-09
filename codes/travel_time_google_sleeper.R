@@ -5,6 +5,7 @@ library(jsonlite)
 
 # Check if running on GitHub Actions
 running_on_github <- Sys.getenv("GITHUB_ACTIONS") == "true"
+dropbox_token <- Sys.getenv("DROPBOX_ACCESS_TOKEN")
 
 # Set Google API key
 api_key <- "AIzaSyDBsbOpAc2yhrSTxS14rcUk30J1XNOUX28"
