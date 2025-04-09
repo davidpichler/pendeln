@@ -93,7 +93,7 @@ run_abfrage <- function() {
 # -------------------
 
 start_time <- Sys.time()
-max_duration <- minutes(210)  # z.B. 3,5 Stunden
+max_duration <- minutes(45)  # z.B. 3,5 Stunden
 
 gesamtergebnis <- list()
 
