@@ -1,6 +1,7 @@
 library(gmapsdistance)
 library(googleway)
-library(lubridate)
+library(httr)
+library(jsonlite)
 
 # Check if running on GitHub Actions
 running_on_github <- Sys.getenv("GITHUB_ACTIONS") == "true"
@@ -88,45 +89,80 @@ run_abfrage <- function() {
   do.call(rbind, pendler_ergebnis)
 }
 
+# Funktion zur Rundung auf nächste Viertelstunde
+round_up_to_next_quarter <- function(time) {
+  mins <- as.integer(format(time, "%M"))
+  secs <- as.integer(format(time, "%S"))
+  add <- 15 - (mins %% 15)
+  if (add == 15 && secs == 0) add <- 0
+  rounded <- as.POSIXct(trunc(time, "mins")) + add * 60
+  return(rounded)
+}
+
+# Dropbox Upload-Funktion
+upload_to_dropbox <- function(file_path, dropbox_path, token) {
+  if (is.na(token) || token == "") {
+    message("⚠️ Kein Dropbox-Token gefunden – Upload wird übersprungen.")
+    return(invisible(NULL))
+  }
+  
+  res <- POST(
+    url = "https://content.dropboxapi.com/2/files/upload",
+    add_headers(
+      Authorization = paste("Bearer", token),
+      `Dropbox-API-Arg` = toJSON(
+        list(path = dropbox_path, mode = "overwrite"),
+        auto_unbox = TRUE
+      ),
+      `Content-Type` = "application/octet-stream"
+    ),
+    body = upload_file(file_path)
+  )
+  
+  if (res$status_code == 200) {
+    message("✅ Datei erfolgreich in Dropbox hochgeladen: ", dropbox_path)
+  } else {
+    warning("❌ Dropbox-Upload fehlgeschlagen: ", content(res, "text"))
+  }
+}
+
 # -------------------
 # Zeitsteuerung
 # -------------------
 
 start_time <- Sys.time()
-max_duration <- minutes(45)  # z.B. 3,5 Stunden
+max_duration_secs <- 3.5 * 60 * 60  # 3,5 Stunden
+output_dir <- "output_git"
+dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
 
-gesamtergebnis <- list()
+# Wait until next 00, 15, 30, or 45
+next_time <- round_up_to_next_quarter(Sys.time())
+wait_seconds <- as.numeric(difftime(next_time, Sys.time(), units = "secs"))
+cat("Warte auf erste Runde bis ", format(next_time, "%H:%M:%S"), "\n")
+Sys.sleep(wait_seconds)
 
-while (Sys.time() - start_time < max_duration) {
+while (as.numeric(difftime(Sys.time(), start_time, units = "secs")) < max_duration_secs) {
   cat("Starte neue Runde: ", Sys.time(), "\n")
   
-  abfrage_resultat <- run_abfrage()
-  gesamtergebnis[[length(gesamtergebnis) + 1]] <- abfrage_resultat
+  abfrage_df <- run_abfrage()
   
-  next_time <- ceiling_date(Sys.time(), unit = "15 minutes")
+  # Write one CSV file per round
+  file_timestamp <- format(Sys.time(), "%Y%m%d_%H%M")
+  filename <- paste0("pendelzeit_", file_timestamp, ".csv")
+  local_path <- file.path(output_dir, filename)
+  dropbox_path <- paste0("/funstuff/pendeln/output_git/", filename)
+  
+  write.table(abfrage_df, file = local_path, sep = ";", row.names = FALSE)
+  
+  if (running_on_github) {
+    upload_to_dropbox(local_path, dropbox_path, dropbox_token)
+  }
+  
+  # Wait until next quarter-hour
+  next_time <- round_up_to_next_quarter(Sys.time())
   wait_seconds <- as.numeric(difftime(next_time, Sys.time(), units = "secs"))
-  
   cat("Warte bis ", format(next_time, "%H:%M:%S"), " (", round(wait_seconds), " Sekunden)\n")
   Sys.sleep(wait_seconds)
 }
 
-# Alles zusammenführen
-df <- do.call(rbind, gesamtergebnis)
 
-# Output-Dateiname mit Startzeitstempel
-zeitstempel <- format(start_time, "%Y%m%d_%H%M")
-dateiname <- paste0("pendelzeit_", zeitstempel, ".csv")
-
-# Output-Ordner
-output_dir <- "output_git"
-dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
-
-if (running_on_github) {
-  write.table(df, 
-              file = file.path(output_dir, dateiname),
-              sep = ";",
-              row.names = FALSE)
-}
-
-# Dateiname exportieren
-writeLines(dateiname, "output_filename.txt")
