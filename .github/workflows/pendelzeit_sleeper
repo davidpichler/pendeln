@@ -1,0 +1,61 @@
+name: Run travel_time_google and upload to Dropbox
+
+on:
+  schedule:
+    - cron: '21 3 * * *'   # 05:21 MESZ (03:21 UTC)
+    - cron: '21 12 * * *'  # 14:21 MESZ (12:21 UTC)
+  workflow_dispatch:
+
+jobs:
+  run_r_script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+
+      - name: Install system dependencies for RCurl
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libjpeg-dev libjq-dev jq
+
+      - name: Cache R packages
+        uses: actions/cache@v3
+        with:
+          path: renv/library
+          key: ${{ runner.os }}-renv-${{ hashFiles('renv.lock') }}
+          restore-keys: ${{ runner.os }}-renv-
+
+      - name: Install renv and restore packages
+        run: |
+          install.packages("renv")
+          renv::restore()
+        shell: Rscript {0}
+
+      - name: Get fresh Dropbox access token (before R script)
+        run: |
+          export APP_KEY="${{ secrets.DROPBOX_APP_KEY }}"
+          export APP_SECRET="${{ secrets.DROPBOX_APP_SECRET }}"
+          export REFRESH_TOKEN="${{ secrets.DROPBOX_REFRESH_TOKEN }}"
+          bash codes/refresh_token.sh
+          echo "DROPBOX_ACCESS_TOKEN=$(cat dropbox_access_token.txt)" >> $GITHUB_ENV
+
+      - name: Run R script and capture output filename
+        id: runscript
+        env:
+          DROPBOX_ACCESS_TOKEN: ${{ env.DROPBOX_ACCESS_TOKEN }}
+        run: |
+          Rscript codes/travel_time_google.R
+          FILE_NAME=$(cat output_filename.txt)
+          echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
+
+      - name: Upload file to Dropbox
+        run: |
+          curl -X POST https://content.dropboxapi.com/2/files/upload \
+            --header "Authorization: Bearer ${{ env.DROPBOX_ACCESS_TOKEN }}" \
+            --header "Dropbox-API-Arg: {\"path\": \"/funstuff/pendeln/output_git/${{ env.FILE_NAME }}\", \"mode\": \"overwrite\"}" \
+            --header "Content-Type: application/octet-stream" \
+            --data-binary @output_git/${{ env.FILE_NAME }}
