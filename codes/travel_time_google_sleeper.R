@@ -137,9 +137,10 @@ output_dir <- "output_git"
 dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
 
 # Wait until next 00, 15, 30, or 45
+cat("Zeit Start:", format(Sys.time(), "%H:%M:%S"), "\n")
 next_time <- round_up_to_next_quarter(Sys.time())
 wait_seconds <- as.numeric(difftime(next_time, Sys.time(), units = "secs"))
-cat("Warte auf erste Runde bis ", format(next_time, "%H:%M:%S"), "\n")
+cat("Warte auf erste Runde bis ", format(next_time, "%H:%M:%S"),"Wartezeit: ",round(wait_seconds/60,2)," Minuten", "\n")
 Sys.sleep(wait_seconds)
 
 while (as.numeric(difftime(Sys.time(), start_time, units = "secs")) < max_duration_secs) {
