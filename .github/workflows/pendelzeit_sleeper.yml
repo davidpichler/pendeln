@@ -10,7 +10,19 @@ jobs:
   run_r_script:
     runs-on: ubuntu-latest
 
+    name: Run travel_time_google - sleeper
+
+
     steps:
+      - name: Print current server time
+        run: |
+          echo "Current server time (UTC):"
+          date -u
+          
+      - name: Print current time in Vienna
+        run: |
+          TZ=Europe/Vienna date
+
       - name: Checkout repo
         uses: actions/checkout@v3
 
