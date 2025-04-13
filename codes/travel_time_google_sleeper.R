@@ -13,12 +13,12 @@ set.api.key(api_key)
 set_key(api_key)
 
 # Pendler-Startorte und Zielorte
-startorte <- c("Leonding", "Gallneukirchen", "Ansfelden", 
-               "Pregarten", "Enns", "Steyregg",
-               "Ottensheim", "Bad Leonfelden", 
-               "Wilhering")
+startorte <- c("Stadtamt Leonding", "Gemeindeamt Gallneukirchen", "Stadtamt Ansfelden", 
+               "Gemeindeamt Pregarten", "Stadtamt Enns", "Steyregg",
+               "Gemeindeamt Ottensheim", "Gemeindeamt Bad Leonfelden", 
+               "Gemeindeamt Wilhering")
 
-zielorte <- c("Linz Hauptbahnhof", "Industriezeile, Linz", 
+zielorte <- c("Linz Hauptbahnhof", "Prinz-Eugen-Strasse 22, 4020 Linz", 
               "Johannes-Kepler-Universität Linz")
 
 # Zeitabfragefunktion
