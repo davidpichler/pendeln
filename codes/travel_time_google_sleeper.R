@@ -14,7 +14,7 @@ set_key(api_key)
 
 # Pendler-Startorte und Zielorte
 startorte <- c("Stadtamt Leonding", "Gemeindeamt Gallneukirchen", "Stadtamt Ansfelden", 
-               "Gemeindeamt Pregarten", "Stadtamt Enns", "Steyregg",
+               "Gemeindeamt Pregarten", "Stadtamt Enns", "Stadtgemeinde Steyregg",
                "Gemeindeamt Ottensheim", "Gemeindeamt Bad Leonfelden", 
                "Gemeindeamt Wilhering")
 
