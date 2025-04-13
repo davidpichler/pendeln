@@ -132,7 +132,7 @@ upload_to_dropbox <- function(file_path, dropbox_path, token) {
 # -------------------
 
 start_time <- Sys.time()
-max_duration_secs <- 3.5 * 60 * 60  # 3,5 Stunden
+max_duration_secs <- 4 * 60 * 60  # 3,5 Stunden
 output_dir <- "output_git"
 dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
 
