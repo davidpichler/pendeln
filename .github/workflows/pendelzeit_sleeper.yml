@@ -1,9 +1,6 @@
 name: Run travel_time_google - sleeper
 
-on:
-  schedule:
-    - cron: '10 3 * * *'   # 05:21 MESZ (03:21 UTC)
-    - cron: '10 12 * * *'  # 14:21 MESZ (12:21 UTC)
+on:  
   workflow_dispatch:
 
 jobs:
