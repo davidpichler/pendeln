@@ -8,7 +8,8 @@ running_on_github <- Sys.getenv("GITHUB_ACTIONS") == "true"
 dropbox_token <- Sys.getenv("DROPBOX_ACCESS_TOKEN")
 
 # Set Google API key
-api_key <- "AIzaSyDBsbOpAc2yhrSTxS14rcUk30J1XNOUX28"
+#api_key <- "AIzaSyDBsbOpAc2yhrSTxS14rcUk30J1XNOUX287"
+api_key <- "AIzaSyBm3qZuOSdnne7ynfnJVe0UsGliDzCk2m8"
 set.api.key(api_key)
 set_key(api_key)
 
