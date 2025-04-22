@@ -64,5 +64,7 @@ jobs:
       - name: Run R script (sleeper)
         env:
           DROPBOX_ACCESS_TOKEN: ${{ env.DROPBOX_ACCESS_TOKEN }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: |
           Rscript codes/travel_time_google_sleeper.R
+
